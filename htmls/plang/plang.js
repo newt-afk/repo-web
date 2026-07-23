@@ -46,8 +46,12 @@ function sleep(ms) {
     return new Promise(r => setTimeout(r,ms));
 }
 
-const max = (a,b) => a>b?a:b;
-const min = (a,b) => a<b?a:b;
+function max(...items) {
+    return items.reduce((p,c) => p>c?p:c);
+}
+function min(...items) {
+    return items.reduce((p,c) => p<c?p:c);
+}
 
 // Tokens and lexing
 class Token {
@@ -278,16 +282,12 @@ document.getElementById("interpret button").addEventListener("click", async func
             display.clearRect(0,0,display.maxwidth,display.maxheight);
             // add scaling so everything fits
             display.maxwidth = max(
-                max(
-                    display.canvas.width,
-                    lines.map(v => display.measureText(v).width+10).reduce((p,v)=>p+v,0)
-                ), 
-                max(
-                    tokenlines.slice(0,-1).map(
-                        va=>va.map(v=>v.toRect().width+10).reduce((p,v)=>p+v)
-                    ).reduce((a,b) => max(a,b),0),
-                    tokenlines.at(-1).map(v=>v.toRect().width+10).reduce((p,v)=>p+v,0) + display.measureText(nextline).width + 10
-                )
+                display.canvas.width,
+                lines.map(v => display.measureText(v).width+10).reduce((p,v)=>p+v,0),
+                tokenlines.at(-1).map(v=>v.toRect().width+10).reduce((p,v)=>p+v,0) + display.measureText(nextline).width + 10,
+                ...tokenlines.slice(0,-1).map(
+                    va=>va.map(v=>v.toRect().width+10).reduce((p,v)=>p+v)
+                ),
             )
             
             let scaling = min(display.canvas.width/display.maxwidth,display.canvas.height/display.maxheight);
