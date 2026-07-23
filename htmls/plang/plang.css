@@ -1,0 +1,9 @@
+#vartable {
+    width:25%;
+}
+#vartable th {
+    height: 1px;
+}
+#vartable {
+    flex-grow:1;
+}

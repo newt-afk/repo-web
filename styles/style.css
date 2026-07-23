@@ -3,15 +3,29 @@
         background: black;
         color: white;
     }
+    table, th, td{
+        border: 1px solid white;
+    }
 }
 @media (prefers-color-scheme: light) {
     body {
         background: white;
         color: black;
     }
+    table, th, td{
+        border: 1px solid black;
+    }
 }
 h1 {
 }
 p {
 }
-
+.flexy {
+    display: flex;
+}
+table {
+    border-collapse: collapse;
+}
+th,td {
+    text-align: center;
+}
