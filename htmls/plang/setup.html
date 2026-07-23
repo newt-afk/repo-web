@@ -1,0 +1,37 @@
+<h1 id="motivation">Motivation</h1>
+<p>I wanna try writing a programming language. I wrote an interpreter in
+11th grade for a final project, but that was following a tutorial. This
+time, I will be taking my learnings, and attempting to write a
+programming language from scratch.</p>
+<p>The language is called plang, for programming language. It’s not
+gonna be very useful, so the name doesn’t matter.</p>
+<p>The language will fulfill some other goals though:</p>
+<ul>
+<li>AST is visualizable while generating</li>
+<li>Can be compiled to run on a static site
+<ul>
+<li>Might lead to performance concerns for the parser</li>
+</ul></li>
+<li>Must have an interpreter</li>
+<li>Maybe a compiler?</li>
+<li>Maybe an error checker?</li>
+</ul>
+<h1 id="setup">Setup</h1>
+<p>I selected Haskell as my language because I like it, and the result
+should be viewable on this site (linked here when finished). Haskell
+also has an experimental WASM backend, which makes running on a static
+site easier.</p>
+<p>In terms of testing, apparently Haskell has testing frameworks; I
+haven’t dealt with those before because I’m used to coding for small
+problems (think LeetCode type questions; not project scale). Given my
+previous experience writing an interpreter, there were many things to
+test, and so I’m thinking about how to test immediately.</p>
+<p>For testing, I’ll try out using <a
+href="https://hspec.github.io/">HSpec</a>. It seems to be a wrapper
+around <a href="https://github.com/hspec/HUnit#readme">HUnit</a>, and
+can call into <a
+href="https://github.com/nick8325/quickcheck">Quickcheck</a>, which
+covers unit testing and property checking. Plus, its syntax is nice.
+This might change later.</p>
+<p>Regardless, the only thing left is to decide on the syntax of the
+language. That will be discussed later.</p>

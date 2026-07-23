@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title> INDEX </title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Interpreters</h1>
+        <!-- GOALS
+            make AST visible
+            make execution visible
+            source > sink type programming
+        -->
+        <div>
+            <!-- INTERPRETATIONS -->
+            <!-- make these lower divs go side by side using css later -->
+            <div>
+                <!-- TEXT AREA -->
+                <textarea rows="15" cols="50" id="interpretted text">Interpretted here</textarea>
+                <button type="submit" id="interpret button">Submit</button>
+                <p id="DEBUG ELEMENT">
+                </p>
+            </div>
+            <div class="sidebyside2">
+                <!-- DISPLAY AREA -->
+                <canvas id="interpretation visualization" width="1000" height="500" style="border:1px solid #000000;">
+                </canvas>
+                <table id="vartable">
+                    <caption>
+                        Variables and values
+                    </caption>
+                    <thead>
+                        <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>Example</td>
+                        <td>42</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="terminal">
+                <p class="termhistory">Welcome to the Terminal!</p>
+                <span id="line">> </span>
+                <input type="text" id="terminput">
+            </div>
+        </div>
+        <script src="plang.js"> </script>
+    </body>
+</html>
