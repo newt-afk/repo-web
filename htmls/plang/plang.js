@@ -1,4 +1,4 @@
-function printDebug(msg) { document.getElementById("DEBUG ELEMENT").innerHTML = "<samp>" + msg + "</samp>" }
+import { Colours } from "../../styles/colours.js"
 
 let outTerminal = {
     cmdMode: true,
@@ -89,7 +89,7 @@ class Token {
         return this.type + "(" + this.data.toString() + ")";
     }
     toRect() {
-        let colour = this.data? "red": "blue";
+        let colour = this.data? Colours.red: Colours.blue;
         return {innerText: this.toString(), colour: colour, width: display.measureText(this.toString()).width + 10};
     }
 }
@@ -165,26 +165,26 @@ class ASTNode {
     }
     toRect() {
         // program = black, parse error = red, blue, green, turqoise, purple
-        let colour = "red";
+        let colour = Colours.red;
         switch (this.type) {
             case "PROGRAM": 
-                colour = "black";
+                colour = Colours.text; // share colour with text for darkmode compatibility
                 break;
             case "ASSIGN": 
-                colour = "blue";
+                colour = Colours.blue;
                 break;
             case "CALL": 
-                colour = "green";
+                colour = Colours.green;
                 break;
             case "VARIABLE": 
-                colour = "violet";
+                colour = Colours.flamingo;
                 break;
             case "CONSTANT": 
-                colour = "purple";
+                colour = Colours.rosewater;
                 break;
         }
         
-        return {innerText: this.toString(),strokecolour:colour,fillcolour:this.active?"#ff000060":"#ffffff00",width:display.measureText(this.toString()).width + 10};
+        return {innerText: this.toString(),strokecolour:colour,fillcolour:this.active?Colours.red+"90":"#ffffff00",width:display.measureText(this.toString()).width + 10};
     }
 }
 
@@ -247,12 +247,12 @@ function lex(code) {
 
 document.getElementById("interpret button").addEventListener("click", async function () {
     display.font = "30px Arial";
-    line.innerText = "";
+    display.fillStyle = Colours.text;
     terminput.focus();
-    outTerminal.cmdMode = false;
+    
     display.maxheight = display.canvas.height;
     display.maxwidth = display.canvas.width;
-    let inputstring = document.getElementById("interpretted text").value;
+    let inputstring = document.getElementById("interpreted text").value;
     let evalmap = new Map(stdmap);
 
     let lines = inputstring.split("\n");
@@ -360,7 +360,7 @@ document.getElementById("interpret button").addEventListener("click", async func
         let layerxcoord = layerwidths.map((v,i) => v+40).reduce((p,v) => p.concat([p.at(-1)+v]),[10]);
         let connections = [];
         display.maxwidth = max(layerxcoord.at(-1),display.canvas.width);
-        heightcalc = (y, ast) => {
+        let heightcalc = (y, ast) => {
             let cy=y;
             for (let c of ast.children) {
                 cy = heightcalc(cy,c);
@@ -380,7 +380,7 @@ document.getElementById("interpret button").addEventListener("click", async func
             display.fillStyle = rect.fillcolour;
             display.fillRect(xcoord-5,y-30+2,rect.width,37);
             display.strokeRect(xcoord-5,y-30+2,rect.width,37);
-            display.fillStyle = "black";
+            display.fillStyle = Colours.text;
             display.fillText(n.toString(),xcoord,y,rect.width-10);
             display.restore();
             let cy = y; // child y
@@ -389,11 +389,14 @@ document.getElementById("interpret button").addEventListener("click", async func
             for (let c of n.children) {
                 let v = [xcoord+rect.width-5,y-10,x[1]-5,cy-10];
                 let mid = v[0]+(v[2]-v[0])/2;
+                display.save();
+                display.strokeStyle = Colours.text;
                 display.moveTo(v[0],v[1]);
                 display.lineTo(mid,v[1]);
                 display.lineTo(mid,v[3]);
                 display.lineTo(v[2],v[3]);
                 display.stroke();
+                display.restore();
                 cy = recfunc(x.slice(1),cy,c);
             }
             return n.children.length == 0?y+40:cy;
@@ -416,14 +419,14 @@ document.getElementById("interpret button").addEventListener("click", async func
             })
         }
     }
-    let eval = async (ast) => {
+    let peval = async (ast) => {
         ast.active = true;
         let retval;
         rendererer();
         await sleep(frameperiod);
         switch (ast.type) {
             case "PROGRAM":
-                for (let a of ast.children) await eval(a);
+                for (let a of ast.children) await peval(a);
                 break;
             case "CONSTANT": 
                 retval = ast.val;
@@ -433,12 +436,12 @@ document.getElementById("interpret button").addEventListener("click", async func
                 break;
             case "CALL":
                 let args = [];
-                for (let arg of ast.children) args.push(await eval(arg));
-                retval = await evalmap.get(ast.name)?.call(undefined,...args);
-                if (retval == undefined) throw Error("Something went wrong calling the function");
+                for (let arg of ast.children) args.push(await peval(arg));
+                retval = await evalmap.get(ast.name).call(undefined,...args);
+                //if (retval == undefined) throw Error("Something went wrong calling the function");
                 break;
             case "ASSIGN":
-                evalmap.set(ast.name, await eval(ast.children[0]))
+                evalmap.set(ast.name, await peval(ast.children[0]))
         }
         ast.active = false;
         rendererer();
@@ -446,7 +449,7 @@ document.getElementById("interpret button").addEventListener("click", async func
         return retval;
     }
     try {
-        await eval(tree);
+        await peval(tree);
     } catch (e) {
         outTerminal.tprinterr(e.toString());
         outTerminal.tprintline("Program killed.");
