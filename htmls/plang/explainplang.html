@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Zeno Xiao" />
   <meta name="dcterms.date" content="2026-07-20" />
-  <link rel="stylesheet" href="../../styles/style.css">
   <title>PLang implementation</title>
   <style>
     code{white-space: pre-wrap;}
@@ -56,7 +55,7 @@
       }
     pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
     div.sourceCode
-      { background-color: var(--mantle);padding: 3px; }
+      { background-color: var(--rosewater);padding: 3px; }
     @media screen {
     pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
     }
@@ -90,7 +89,7 @@
     code span.vs { color: #4070a0; } /* VerbatimString */
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="../../styles/style.css" />
 </head>
 <body>
 <header id="title-block-header">
@@ -99,12 +98,15 @@
 <p class="date">2026-07-20</p>
 </header>
 <h1 id="overview">Overview</h1>
-<p>This discusses the interpreter as written on 2026-07-20.</p>
+<p>This discusses the interpreter as written on 2026-07-20. <a
+href="./lang.html">Check it out!</a></p>
 <p>By reading through, you should learn basic ideas for how interpreted
 languages work.</p>
 <p>The process largely is lexing, parsing, then interpreting.</p>
 <p>This post uses Haskell, but you don’t need to know Haskell to read
 the document.</p>
+<p>Alternative, you can understand the langauge using the <a
+href="./diagram.xhtml">Railroad diagrams</a>. (Warning: flashbang. The page was generated with an external tool)</p>
 <p>Note: some of the data have weird names. That’s my bad. Just
 ctrl-shift-i and change it yourself if it bothers you too much.</p>
 <h1 id="lexing">Lexing</h1>
@@ -191,7 +193,11 @@ because it represents the entire program. Expressions can be statements,
 but their return values are discarded. Since expressions ultimately
 evaluate to characters or numbers, <code>CALL</code> and
 <code>ASSIGN</code> use them for their arguments/value.</p>
-<p>Below are some railroad diagrams, showing how these are parsed.</p>
+<p>Parsing can be better explained using the railroad diagrams in the <a
+href="#overview">Overview</a>. The general idea is that anything
+starting with <code>TYPE Name ASSIGNMENT</code> gets turned into an
+assignment, and everything else is read as an evaluatable
+expression.</p>
 <p>In the webpage, parsing takes place when the lines of rectangles are
 rearranged into the tree.</p>
 <h1 id="interpretation">Interpretation</h1>

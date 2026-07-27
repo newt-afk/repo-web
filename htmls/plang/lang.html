@@ -8,6 +8,7 @@
     </head>
     <body>
         <h1>Interpreters</h1>
+        <a href="./explainplang.html">Explanation</a>
         <!-- GOALS
             make AST visible
             make execution visible
@@ -18,8 +19,10 @@
             <!-- make these lower divs go side by side using css later -->
             <div class="flexy" style="padding: 10px;">
                 <!-- TEXT AREA -->
-                <textarea rows="15" cols="50" id="interpreted text">Interpreted here</textarea>
-                <button type="submit" id="interpret button">Submit</button>
+                <div>
+                    <textarea rows="15" cols="50" id="interpreted text">Interpreted here</textarea>
+                    <button type="button" id="interpret button">Run</button>
+                </div>
                 <div id="terminal">
                     <p class="termhistory">Welcome to the Terminal!</p>
                     <span id="line">> </span>

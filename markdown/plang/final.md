@@ -3,13 +3,15 @@
 % 2026-07-20
 
 # Overview
-This discusses the interpreter as written on 2026-07-20. 
+This discusses the interpreter as written on 2026-07-20. [Check it out!](./lang.html)
 
 By reading through, you should learn basic ideas for how interpreted languages work.
 
 The process largely is lexing, parsing, then interpreting. 
 
 This post uses Haskell, but you don't need to know Haskell to read the document.
+
+Alternative, you can understand the langauge using the [Railroad diagrams](./diagram.xhtml) (Warning: flashbang. The page was generated with an external tool).
 
 Note: some of the data have weird names. That's my bad. Just ctrl-shift-i and change it yourself if it bothers you too much.
 
@@ -92,7 +94,9 @@ just ASTs which evaluates to values. Above, `ASSIGN` is the only explicit statem
 the number, and the character respectively. `PROGRAM` is neither statement or expression, because it represents the entire program.
 Expressions can be statements, but their return values are discarded. Since expressions ultimately evaluate to characters or numbers, `CALL` and `ASSIGN` use them for their arguments/value.
 
-Below are some railroad diagrams, showing how these are parsed.
+Parsing can be better explained using the railroad diagrams in the [Overview](#overview). 
+The general idea is that anything starting with `TYPE Name ASSIGNMENT` gets turned into an assignment, and everything
+else is read as an evaluatable expression.
 
 In the webpage, parsing takes place when the lines of rectangles are rearranged into the tree.
 
