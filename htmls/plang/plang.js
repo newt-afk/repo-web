@@ -202,6 +202,8 @@ let stdmap = new Map(Object.entries({
         if (c=="") {throw Error("No character typed")} 
         else return c[0];
     },
+    "if": (cond, a, b) => cond?a:b,
+    "eq": (a,b) => a==b?1:0,
 }));
 
 // only does a single token at a time for integration with visualization function.
