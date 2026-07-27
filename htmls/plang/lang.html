@@ -16,17 +16,15 @@
         <div>
             <!-- INTERPRETATIONS -->
             <!-- make these lower divs go side by side using css later -->
-            <div>
+            <div class="flexy" style="padding: 10px;">
                 <!-- TEXT AREA -->
-                <textarea rows="15" cols="50" id="interpretted text">Interpretted here</textarea>
+                <textarea rows="15" cols="50" id="interpreted text">Interpreted here</textarea>
                 <button type="submit" id="interpret button">Submit</button>
-                <p id="DEBUG ELEMENT">
-                </p>
-            </div>
-            <div class="flexy">
-                <!-- DISPLAY AREA -->
-                <canvas id="interpretation visualization" width="1000" height="500" style="border:1px solid #000000; background-color:white;">
-                </canvas>
+                <div id="terminal">
+                    <p class="termhistory">Welcome to the Terminal!</p>
+                    <span id="line">> </span>
+                    <input type="text" id="terminput">
+                </div>
                 <table id="vartable">
                     <caption>
                         Variables and values
@@ -45,12 +43,22 @@
                     </tbody>
                 </table>
             </div>
-            <div id="terminal">
-                <p class="termhistory">Welcome to the Terminal!</p>
-                <span id="line">> </span>
-                <input type="text" id="terminput">
+            <div class="flexy">
+                <!-- DISPLAY AREA -->
+                <canvas id="interpretation visualization" width="1000" height="500" style="outline: 1px solid var(--surface0);background-color: var(--mantle);width: 100%; height: 100%">
+                </canvas>
+                <script>
+                    let elem = document.getElementById("interpretation visualization");
+                    let ctx = elem.getContext("2d");
+                    function reresize() {
+                        elem.width = window.innerWidth * 0.8;
+                        elem.height = window.innerHeight * 0.9;
+                    }
+                    new ResizeObserver(reresize).observe(elem);
+                </script>
             </div>
+            
         </div>
-        <script src="plang.js"> </script>
+        <script src="plang.js" type="module"> </script>
     </body>
 </html>

@@ -1,7 +1,6 @@
 #terminal {
     overflow-y: auto;
-    height: 200px;
-    width: 300px;
+    resize: both;
     padding-left: 5px;
     background-color: black;
     color: white;
@@ -16,7 +15,7 @@
     background: transparent;
     padding: 0px;
     font-size: 15px;
-    width: 250px;
+    width: 90%;
     color: white;
     overflow-anchor: auto;
 }

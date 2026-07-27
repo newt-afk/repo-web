@@ -267,13 +267,13 @@ document.getElementById("interpret button").addEventListener("click", async func
             try {
                 tokp = lex(nextline);
             } catch(e) {
-                printDebug(e);
+                outTerminal.tprinterr(e);
                 return;
             }
             nextline = tokp.rest;
 
             if (tokp.token.type == "LEX_ERROR") {
-                printDebug("Lexing error!!");
+                outTerminal.tprinterr("Lexing error!!");
                 throw Error("Error lexing input text");
             }
 
@@ -461,9 +461,6 @@ document.getElementById("interpret button").addEventListener("click", async func
         }
         p(tree);
         rendererer();
-
-        line.innerText = "> ";
-        outTerminal.cmdMode = true;
     }
 });
 
@@ -471,6 +468,8 @@ terminput.addEventListener("keydown", async function (e) {
     if (e.keyCode == 13) {
         outTerminal.tprintline(line.innerText + terminput.value);
         if (outTerminal.cmdMode) {
+            outTerminal.cmdMode = false; // running command
+            line.innerText = "";
             switch (terminput.value) {
                 case "clear":
                     document.querySelectorAll('.termhistory').forEach(e => e.remove());
@@ -478,6 +477,8 @@ terminput.addEventListener("keydown", async function (e) {
                 default:
                     break;
             }
+            line.innerText = "> ";
+            outTerminal.cmdMode = true;
         }
         await sleep(1);
         terminput.value = "";
